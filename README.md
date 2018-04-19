@@ -1,5 +1,5 @@
 ## React Webpack Setup
-*Webpack & Babel*
+*Webpack & Babel* ----
 To duplicate a repository without forking it, you can run a special clone command, then mirror-push to the new repository.
 1. Create a [new-repo] on GitHub.
 2. Create a bare clone of this repository: `git clone --bare https://github.com/Natalia504/react-webpack-template.git`. 
