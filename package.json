@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open",
-    "build": "webpack --mode production"
+    "build": "NODE_ENV='development' webpack -p"
   },
   "babel": {
     "presets": [
@@ -29,7 +29,11 @@
   "homepage": "https://github.com/Natalia504/react-webpack-template#readme",
   "dependencies": {
     "react": "^16.3.1",
-    "react-dom": "^16.3.1"
+    "react-dom": "^16.3.1",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "redux": "^4.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
