@@ -11,7 +11,6 @@ class App extends Component{
     }
 
     render(){
-        console.log(this.props, 'props')
         return (
             <div className='App'>
                 {this.props.data}
