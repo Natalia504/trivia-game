@@ -15,7 +15,7 @@ To duplicate a repository without forking it, you can run a special clone comman
 <details>
     <summary>Details</summary>
     <p>
-    
+
 `npm init`
 `npm i --save react react-dom`
 `npm i --save-dev babel-core babel-loader babel-preset-react`
@@ -24,9 +24,9 @@ To duplicate a repository without forking it, you can run a special clone comman
 ### Configure Webpack
 Create *webpack.config.js* in the root of your project.
 Webpack needs to know three things:
-1. What JavaScript file it should transform.
-2. Which transformations it should use on that file.
-3. Where the new, transformed file should go.
+1. What JavaScript file it should transform (i.e. entry point);
+2. Which transformations it should use on that file (i.e. module);
+3. Where the new, transformed file should go (i.e. output);
 
 ```javascript 
 var path = require('path');
@@ -40,7 +40,7 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.(js)$/, use: 'babel-loader' },
+      { test: /\.(js)$/, exclude: /node_modules/, use: 'babel-loader' },
       { test: /\.css$/, use: [ 'style-loader', 'css-loader' ]}
     ]
   },
