@@ -16,10 +16,10 @@ To duplicate a repository without forking it, you can run a special clone comman
     <summary>Details</summary>
     <p>
 
-`npm init`
-`npm i --save react react-dom`
-`npm i --save-dev babel-core babel-loader babel-preset-react`
-`npm i --save-dev webpack webpack-dev-server html-webpack-plugin`
+`npm init`  
+`npm i --save react react-dom`  
+`npm i --save-dev babel-core babel-loader babel-preset-react`  
+`npm i --save-dev webpack webpack-dev-server html-webpack-plugin`  
 
 ### Configure Webpack
 Create *webpack.config.js* in the root of your project.
