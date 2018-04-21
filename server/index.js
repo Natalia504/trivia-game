@@ -3,6 +3,9 @@ const express = require('express'),
     PORT = 3000,
     bodyParser = require('body-parser');
 
+app.use(bodyParser.json());
+
+
 app.get('/', (req, res) => {
     res.send('Hello Natalia!')
 });
@@ -12,4 +15,4 @@ app.get('/dev', (req, res) => {
 
 
 
-app.listen(PORT, function () { console.log('Listening on port 3000') })
+app.listen(PORT, function () { console.log(`Listening on port ${PORT}`) })

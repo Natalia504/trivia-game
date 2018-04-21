@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/Natalia504/react-webpack-template#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "nodemon": "^1.17.3",
@@ -36,7 +37,8 @@
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "redux": "^4.0.0"
+    "redux": "^4.0.0",
+    "redux-promise-middleware": "^5.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
