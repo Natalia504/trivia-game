@@ -5,6 +5,12 @@ import { connect } from 'react-redux';
 import ComponentOne from './ComponentOne';
 import axios from 'axios';
 
+const Winner = () => {
+    return <div>That is CORRECT!!!</div>
+}
+const Loser = () => {
+    return <div>That's INCORRECT, stupid!</div>
+}
 
 class App extends Component {
 
@@ -14,13 +20,12 @@ class App extends Component {
     }
 
     renderQuestion() {
-        return this.props.data.map((e, i) => {
+        return this.props.data.map((e, questionIndex) => {
             //1.merge all answers in one array
             let answers = [] //output:[1000, [10, 100, 200]]
             answers.push(e.correct_answer)
             answers.push(e.incorrect_answers)
             let flattened = answers.reduce((a, b) => a.concat(b), []) //[1000, 10, 100, 200]
-            console.log(flattened, 'answers')
             //2.shuffle the answers
             var counter = flattened.length, temp, index;
             // While there are elements in the array
@@ -33,22 +38,28 @@ class App extends Component {
                 flattened[index] = temp;
             }
             return (
-                <div className='question-container' key={i}>
+                <div className='question-container' key={questionIndex}>
                     <h4 className='question'>{e.question}</h4>
-                    {flattened.map(e =>
-                        typeof (e) === 'number' 
-                        ? 
-                        flattened.reduce((a, b) => b - a) 
-                        : 
-                        <p key={e}>{e}</p>
+                    {flattened.map(el => 
+                            <p onClick={this.checkForCorrectAnswer.bind(this, questionIndex, el)} key={el}>{el}</p>
                     )}
                 </div>
             )
         })
     };
 
-    checkForCorrectAnswer() {
+    checkForCorrectAnswer(questionIndex, clickedAnswer) {
+        let currentQuestion = this.props.data.filter((item, i) => i === questionIndex)
+        let isCorrect = currentQuestion[0].correct_answer === clickedAnswer ? true : false
+        console.log(isCorrect, 'isCorrect?')
 
+
+
+
+        // Add isCorrect: true/false to question object on data array
+        // let newData = this.props.data[currentQuestion].isCorrect = isCorrect;
+        
+        // this.props.updateData(newData)
     }
 
     render() {
@@ -61,8 +72,6 @@ class App extends Component {
                         {this.renderQuestion()}
                     </li>
                 </ul>
-                <ComponentOne
-                />
             </div>
         )
     }
