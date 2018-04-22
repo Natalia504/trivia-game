@@ -37,11 +37,16 @@ class App extends Component {
                 flattened[counter] = flattened[index];
                 flattened[index] = temp;
             }
+            //Remove encoded HTML symbols and replace it with ''
+            let formattedQuestion = e.question.replace(/&(?:[a-z]+|#\d+);/g, '\'');
+
             return (
                 <div className='question-container' key={questionIndex}>
-                    <h4 className='question'>{e.question}</h4>
-                    {flattened.map(el => 
-                            <p onClick={this.checkForCorrectAnswer.bind(this, questionIndex, el)} key={el}>{el}</p>
+                    <h4 className='question'>{formattedQuestion}</h4>
+                    {flattened.map(el =>   
+                            <p onClick={this.checkForCorrectAnswer.bind(this, questionIndex, el)} key={el}>
+                                {el.replace(/&(?:[a-z]+|#\d+);/g, '\'') }
+                            </p>
                     )}
                 </div>
             )
