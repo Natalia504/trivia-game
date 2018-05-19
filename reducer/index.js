@@ -1,23 +1,30 @@
 import axios from 'axios';
-// import { ENGINE_METHOD_PKEY_ASN1_METHS } from 'constants';
 
 const initialState = {
     data: [],
     answers: [],
+    recordedAnswers: [],
     currentTurn: 0,
     selectedAnswer: '',
-    isCorrect: null,
-    questionIndex: '',
     correctClass: '',
     wrongClass: '',
     selectedClass: '',
 };
 
-const GET_ALL_DATA = 'GET_ALL_DATA';
+const GET_DATA = 'GET_DATA';
+const GET_ANSWERS = 'GET_ANSWERS';
 const RECORD_ANSWERS = 'RECORD_ANSWERS';
 const CURRENT_TURN = 'CURRENT_TURN';
 const SELECT_ANSWER = 'SELECT_ANSWER';
+const SAVE_ANSWERS = 'SAVE_ANSWERS';
 
+
+export function saveAnswers(answers){
+    return {
+        type: SAVE_ANSWERS, 
+        payload: answers
+    }
+}
 
 export function selectAnswer(selectedAnswer) {
     return {
@@ -29,10 +36,10 @@ export function selectAnswer(selectedAnswer) {
     }
 }
 
-export function recordCurrentTurn() {
+export function recordCurrentTurn(currentTurn) {
     return {
         type: CURRENT_TURN,
-        payload: initialState.currentTurn++
+        payload: currentTurn
     }
 }
 
@@ -43,21 +50,18 @@ export function recordAnswers(answer) {
     }
 }
 
-export function getAllData() {
+export function getData(data) {
     return {
-        type: GET_ALL_DATA,
-        payload: axios.get('https://opentdb.com/api.php?amount=10')
+        type: GET_DATA,
+        payload: data
     }
 }
 
 export default function reducer(state = initialState, action) {
     switch (action.type) {
 
-        // case CHECK_FOR_CORRECT_ANSWER:
-        // console.log(initialState.data, 'data')
-        // let currentQuestion = initialState.data.filter((item, i) => i === initialState.questionIndex)
-        // let isCorrect = currentQuestion[0].correct_answer === initialState.selectedAnswer ? true : false
-        // return Object.assign({}, state, {isCorrect: isCorrect})
+        case SAVE_ANSWERS:
+        return Object.assign({}, state, {answers: action.payload});
 
         case SELECT_ANSWER:
             return Object.assign({}, state, {
@@ -66,16 +70,18 @@ export default function reducer(state = initialState, action) {
             })
 
         case CURRENT_TURN:
+            
             return Object.assign({}, state, { currentTurn: action.payload })
 
         case RECORD_ANSWERS:
-            let answersArray = initialState.answers;
+            let answersArray = initialState.recordedAnswers;
             answersArray.push(action.payload);
-            return Object.assign({}, state, { answers: answersArray })
+            return Object.assign({}, state, { recordedAnswers: answersArray })
 
-        case GET_ALL_DATA + '_FULFILLED':
-            // console.log(action.payload.data.results, 'payload results')
-            return Object.assign({}, state, { data: action.payload.data.results });
+        case GET_DATA:
+            return Object.assign({}, state, {
+                data: action.payload
+            });
 
         default:
             return state;
