@@ -13,8 +13,12 @@ function ComponentOne(props) {
 
     return (
         <div className='question-container'>
-            {props.question}
-            {props.answers.map((e, index) => <p key={index}>{e.answer}</p>)}
+            <div>
+                {props.question}
+            </div>
+            
+                {props.answers.map((e, index) => <p key={index} onClick={() => props.selected(e.answer)}>{e.answer}</p>)}
+            
             <div className='btn-div'>
                 <button onClick={props.checking}>Check!</button>
                 <button onClick={props.onClick}>Next>>></button>

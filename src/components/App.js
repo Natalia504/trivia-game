@@ -16,11 +16,8 @@ class App extends Component {
                 this.props.getData(res.data.results);
                 this.displayAnswers(currentTurn);
             });
-
-        // this.props.recordCurrentTurn(this.props.currentTurn);
-        console.log(this.props.currentTurn, 'currentTurn in CWillM')
     }
- 
+
 
     displayQuestion() {
         return this.props.data.map((question, i) => {
@@ -93,11 +90,10 @@ class App extends Component {
     // };
 
     assignSelectedColor(clickedAnswer) {
-        console.log(clickedAnswer, "CLICKED")
+        // console.log(clickedAnswer)
         this.props.selectAnswer(clickedAnswer);
-        console.log(this.props.selectedAnswer, "SELECTED ans");
-        console.log(clickedAnswer, "CLICKED ans");
-        console.log(this.props.selectedAnswer === clickedAnswer, 'COMPARE')
+        // console.log(this.props.selectedAnswer, "SELECTED ans prop");
+        // console.log(this.props.selectedAnswer === clickedAnswer, 'COMPARE')
 
         clickedAnswer === this.props.selectedAnswer
             ? { background: this.props.selectedClass }
@@ -118,15 +114,13 @@ class App extends Component {
         this.props.recordCurrentTurn(nextTurn);
     }
 
-    
+
     render() {
         // console.log(this.props.data, 'DATA app83')
-        console.log(this.props.currentTurn, 'currentTurn in render')
-        console.log(this.props.answers, 'props.answers')
-        // console.log(this.props.selectedAnswer, 'this.props.selected Answer')
+        // console.log(this.props.currentTurn, 'currentTurn in render')
+        // console.log(this.props.answers, 'props.answers')
+        console.log(this.props.selectedAnswer, 'selected Answer')
         let eachQuestion = this.displayQuestion();
-        // let answers = this.displayAnswers();
-        // console.log(answers, 'HI')
 
         return (
             <div className='App'>
@@ -136,6 +130,7 @@ class App extends Component {
                     answers={this.props.answers}
                     onClick={() => this.nextQuestion()}
                     checking={() => this.checkForCorrectAnswer(this.props.currentTurn, this.props.selectedAnswer)}
+                    selected={(selectedAnswer) => this.assignSelectedColor(selectedAnswer)}
                 />
 
             </div>
