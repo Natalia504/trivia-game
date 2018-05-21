@@ -30,17 +30,16 @@ class App extends Component {
     }
 
     displayAnswers(nextTurn) {
-        console.log(this.props.data, 'PROPS DATA')
         const currentData = this.props.data[nextTurn]
         //1.create an array of objects from data
         const correct = {
-            'answer': currentData.correct_answer,
+            'answer': currentData.correct_answer.replace(/&(?:[a-z]+|#\d+);/g, '\''),
             'isCorrect': true,
             'selected': false
         };
         const incorrect = currentData.incorrect_answers.map(e => {
             return {
-                'answer': e,
+                'answer': e.replace(/&(?:[a-z]+|#\d+);/g, '\''),
                 'isCorrect': false,
                 'selected': false
             };
@@ -62,40 +61,6 @@ class App extends Component {
         //4.save answers on state
         this.props.saveAnswers(allAnswers);
     }
-
-    // getAllQuestions() {
-    //     return this.props.data.map((e, questionIndex) => {
-    //         //1.merge all answers in one array
-    //         let answers = [] //output:[correct, [incorrect, incorrect, incorrect]]
-    //         answers.push(e.correct_answer)
-    //         answers.push(e.incorrect_answers)
-    //         let flattened = answers.reduce((a, b) => a.concat(b), []) //[correct, incorrect, incorrect, incorrect]
-    //         //2.shuffle the answers
-    //         var counter = flattened.length, temp, index;
-    //         // While there are elements in the array
-    //         while (counter > 0) {
-    //             // Pick a random index
-    //             index = (Math.random() * counter--) | 0;
-    //             // And swap the last element with it
-    //             temp = flattened[counter];
-    //             flattened[counter] = flattened[index];
-    //             flattened[index] = temp;
-    //         }
-    //         //3.Remove encoded HTML symbols and replace it with ''
-    //         let formattedQuestion = e.question.replace(/&(?:[a-z]+|#\d+);/g, '\'');
-
-    //         return (
-    //             <div className='question-container' key={questionIndex}>
-    //                 <h4 className='question'>{formattedQuestion}</h4>
-    //                 {flattened.map((el, i) =>
-    //                     <p style={{background: this.props.selectedAnswer}} onClick={() => this.assignSelectedColor(el)} key={el}>
-    //                         {el.replace(/&(?:[a-z]+|#\d+);/g, '\'')}
-    //                     </p>
-    //                 )}
-    //             </div>
-    //         )
-    //     })
-    // };
 
     assignSelectedColor(clickedAnswer) {
         this.props.selectAnswer(clickedAnswer);
@@ -123,7 +88,6 @@ class App extends Component {
     }
 
     render() {
-        // console.log(this.props.showCurrentAnswer, 'props.showCurrentNAswer')
         console.log(this.props.selectedAnswer, 'SelectedAnswer')
         console.log(this.props.answers, 'AllAnswers')
         let eachQuestion = this.displayQuestion();
