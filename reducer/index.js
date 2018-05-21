@@ -6,9 +6,9 @@ const initialState = {
     recordedAnswers: [],
     currentTurn: 0,
     selectedAnswer: '',
-    correctClass: '',
-    wrongClass: '',
-    selectedClass: '',
+    selected: false,
+    isDisabled: false,
+    showCurrentAnswer: false,
 };
 
 const GET_DATA = 'GET_DATA';
@@ -17,11 +17,27 @@ const RECORD_ANSWERS = 'RECORD_ANSWERS';
 const CURRENT_TURN = 'CURRENT_TURN';
 const SELECT_ANSWER = 'SELECT_ANSWER';
 const SAVE_ANSWERS = 'SAVE_ANSWERS';
+const DISABLE_BTN = 'DISABLE_BTN';
+const SHOW_ANSWER = 'SHOW_ANSWER';
 
 
-export function saveAnswers(answers){
+export function showAnswer(value){
     return {
-        type: SAVE_ANSWERS, 
+        type: SHOW_ANSWER, 
+        payload: value
+    }
+}
+
+export function disableBtn(isDisabled){
+    return {
+        type: DISABLE_BTN, 
+        payload: isDisabled
+    }
+}
+
+export function saveAnswers(answers) {
+    return {
+        type: SAVE_ANSWERS,
         payload: answers
     }
 }
@@ -29,10 +45,7 @@ export function saveAnswers(answers){
 export function selectAnswer(selectedAnswer) {
     return {
         type: SELECT_ANSWER,
-        payload: selectedAnswer,
-        selected: "lightgrey",
-        correct: "lightgreen",
-        incorrect: "lightred",
+        payload: selectedAnswer, 
     }
 }
 
@@ -59,18 +72,25 @@ export function getData(data) {
 
 export default function reducer(state = initialState, action) {
     switch (action.type) {
+        case SHOW_ANSWER:
+            return Object.assign({}, state, {
+                showCurrentAnswer: action.payload
+            })
+
+        case DISABLE_BTN:
+            return Object.assign({}, state, {
+                isDisabled: action.payload
+            })
 
         case SAVE_ANSWERS:
-        return Object.assign({}, state, {answers: action.payload});
+            return Object.assign({}, state, { answers: action.payload });
 
         case SELECT_ANSWER:
             return Object.assign({}, state, {
                 selectedAnswer: action.payload,
-                selectedClass: action.selected
             })
 
         case CURRENT_TURN:
-            
             return Object.assign({}, state, { currentTurn: action.payload })
 
         case RECORD_ANSWERS:

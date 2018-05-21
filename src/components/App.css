@@ -8,7 +8,7 @@
     height: 100vh;
     font-size: 20px;
     font-Family: Sans-Serif;
-    background-color: lightblue;
+    background: rgb(211, 227, 247);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,7 +20,7 @@
     height: 70vh;
     display: flex;
     flex-direction: column;
-    background: lightskyblue;
+    background: rgb(184, 212, 243);
     padding: 20px;
     justify-content: center;
     align-items: center;
@@ -32,10 +32,21 @@ p{
     font-size: 80%;
     display: flex;
     flex-direction: column;
-    border: 1px solid pink;
     border-radius: 5px;
-    background: lightpink;
-    color:black;
+    background: #FFBFD8;
+    color:rgb(36, 32, 32);
+}
+
+.clicked{
+    background: rgb(185, 184, 184);
+}
+.correct{
+    background: #78D66A;
+    /* border: 3px solid #6EC361; */
+}
+.incorrect{
+    background: rgb(243, 24, 24);
+    /* border: 3px solid rgb(146, 2, 2); */
 }
 
 .btn-div{
@@ -45,8 +56,12 @@ p{
 button{
     width: 150px;
     height: 40px;
-    background: grey;
+    background: rgb(87, 115, 146);
     border-radius: 5px;
     color: white;
     font-size: 16px;
+}
+:disabled{
+    color: grey;
+    background: lightgrey;
 }

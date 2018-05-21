@@ -8,19 +8,28 @@ const Loser = () => {
 }
 
 function ComponentOne(props) {
-    // data.isCorrect ? <Winner /> : <Loser />          
-    // console.log(props.answers, 'props answers')
-
+console.log(props.showCurrentAnswer, 'showAnswer')
     return (
         <div className='question-container'>
             <div>
                 {props.question}
             </div>
             
-                {props.answers.map((e, index) => <p key={index} onClick={() => props.selected(e.answer)}>{e.answer}</p>)}
+                {props.answers.map((e, index) => {
+                    let className = e.selected ? "clicked" : null;
+
+                    if(e.isCorrect && props.showCurrentAnswer){
+                        className = 'correct';
+                    } else if (!e.isCorrect && props.showCurrentAnswer && e.selected){
+                        className = 'incorrect';
+                    } else {
+                        className;
+                    }
+                    return (<p className={className} key={index} onClick={() => props.selected(e.answer)}>{e.answer}</p>)
+                })}
             
             <div className='btn-div'>
-                <button onClick={props.checking}>Check!</button>
+                <button disabled={props.isBtnActive} onClick={props.checking}>Check!</button>
                 <button onClick={props.onClick}>Next>>></button>
             </div>
 

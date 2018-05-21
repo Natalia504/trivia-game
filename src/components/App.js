@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { getData, recordAnswers, recordCurrentTurn, selectAnswer, checkForCorrectAnswer, saveAnswers } from '../../reducer';
+import { getData, recordAnswers, recordCurrentTurn, selectAnswer, checkForCorrectAnswer, saveAnswers, disableBtn, showAnswer } from '../../reducer';
 import { connect } from 'react-redux';
 import ComponentOne from './ComponentOne';
 import axios from 'axios';
@@ -33,9 +33,17 @@ class App extends Component {
         console.log(this.props.data, 'PROPS DATA')
         const currentData = this.props.data[nextTurn]
         //1.create an array of objects from data
-        const correct = { 'answer': currentData.correct_answer, 'isCorrect': true };
+        const correct = {
+            'answer': currentData.correct_answer,
+            'isCorrect': true,
+            'selected': false
+        };
         const incorrect = currentData.incorrect_answers.map(e => {
-            return { 'answer': e, 'isCorrect': false };
+            return {
+                'answer': e,
+                'isCorrect': false,
+                'selected': false
+            };
         });
         //2.merge all answers in one array
         let allAnswers = incorrect.concat(correct);
@@ -90,37 +98,36 @@ class App extends Component {
     // };
 
     assignSelectedColor(clickedAnswer) {
-        // console.log(clickedAnswer)
         this.props.selectAnswer(clickedAnswer);
-        // console.log(this.props.selectedAnswer, "SELECTED ans prop");
-        // console.log(this.props.selectedAnswer === clickedAnswer, 'COMPARE')
-
-        clickedAnswer === this.props.selectedAnswer
-            ? { background: this.props.selectedClass }
-            : null;
+        let selectedStatus = this.props.answers.filter(ans => ans.answer == clickedAnswer);
+        this.props.answers.forEach(obj => obj.selected ? obj.selected = !obj.selected : !obj.selected);
+        return selectedStatus[0].selected = !selectedStatus[0].selected;
     }
 
-    checkForCorrectAnswer(questionIndex, clickedAnswer) {
-        let currentQuestion = this.props.question.filter((item, i) => i === questionIndex)
-        let isCorrect = currentQuestion.correct_answer === clickedAnswer ? true : false
-
-        this.props.recordAnswers(isCorrect);
+    checkForCorrectAnswer() {       
+        let isCorrect = false;
+        this.props.answers.forEach(obj => obj.isCorrect && obj.selected ? isCorrect = true : false);
         console.log(isCorrect, 'isCorrect?')
+        this.props.recordAnswers(isCorrect);
+        console.log(this.props.recordedAnswers, 'recorded answers');
+        this.props.showAnswer(!this.props.showCurrentAnswer);
+        this.props.disableBtn(true);
     }
 
     nextQuestion() {
         const nextTurn = this.props.currentTurn + 1;
         this.displayAnswers(nextTurn);
         this.props.recordCurrentTurn(nextTurn);
+        this.props.showAnswer(!this.props.showCurrentAnswer);
+        this.props.disableBtn(false);
     }
 
-
     render() {
-        // console.log(this.props.data, 'DATA app83')
-        // console.log(this.props.currentTurn, 'currentTurn in render')
-        // console.log(this.props.answers, 'props.answers')
-        console.log(this.props.selectedAnswer, 'selected Answer')
+        // console.log(this.props.showCurrentAnswer, 'props.showCurrentNAswer')
+        console.log(this.props.selectedAnswer, 'SelectedAnswer')
+        console.log(this.props.answers, 'AllAnswers')
         let eachQuestion = this.displayQuestion();
+        
 
         return (
             <div className='App'>
@@ -129,8 +136,10 @@ class App extends Component {
                     question={eachQuestion[this.props.currentTurn]}
                     answers={this.props.answers}
                     onClick={() => this.nextQuestion()}
-                    checking={() => this.checkForCorrectAnswer(this.props.currentTurn, this.props.selectedAnswer)}
+                    checking={() => this.checkForCorrectAnswer()}
                     selected={(selectedAnswer) => this.assignSelectedColor(selectedAnswer)}
+                    isBtnActive={this.props.isDisabled}
+                    showCurrentAnswer={this.props.showCurrentAnswer}
                 />
 
             </div>
@@ -146,9 +155,9 @@ function mapStateToProps(state) {
         recordedAnswers: state.recordedAnswers,
         currentTurn: state.currentTurn,
         selectedAnswer: state.selectedAnswer,
-        correctClass: state.correctClass,
-        wrongClass: state.wrongClass,
-        selectedClass: state.selectedClass
+        selected: state.selected, 
+        isDisabled: state.isDisabled,
+        showCurrentAnswer: state.showCurrentAnswer,
     }
 }
-export default connect(mapStateToProps, { getData, recordAnswers, recordCurrentTurn, selectAnswer, checkForCorrectAnswer, saveAnswers })(App);
+export default connect(mapStateToProps, { getData, recordAnswers, recordCurrentTurn, selectAnswer, checkForCorrectAnswer, saveAnswers, disableBtn, showAnswer })(App);
